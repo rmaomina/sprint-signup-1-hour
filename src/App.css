@@ -1,38 +1,145 @@
-.App {
-  text-align: center;
+:root {
+  --gap: 1rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+p {
+  margin: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.signup {
+  width: 100%;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-color: #121212;
+  color: #fff;
 }
 
-.App-link {
-  color: #61dafb;
+.signup-wrapper {
+  max-width: 800px;
+  min-height: 600px;
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: 1rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.signup-header {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.signup-body {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  column-gap: 2rem;
+}
+
+.signup-body .intro {
+  width: 50%;
+}
+
+.signup-body .intro p {
+  word-break: keep-all;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.signup-body .intro .sub {
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.2rem;
+}
+
+.signup-body .form {
+  width: 50%;
+}
+
+.signup-body .form-row {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.signup-body .form-row > div {
+  flex-basis: 50%;
+}
+
+.signup-body .form-row.half {
+  flex-flow: row nowrap;
+}
+
+.signup-body .form-row.half > div {
+  flex-basis: 100%;
+  flex-grow: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.form-group label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.form-group label.required span {
+  position: relative;
+}
+
+.form-group label.required span:before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: red;
+  position: absolute;
+  top: 3px;
+  right: -10px;
+}
+
+.form-group label + input,
+.form-group label + select {
+  font-size: 1rem;
+  padding: 10px 14px;
+  border-color: #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.form-group.error label + input,
+.form-group.error label + select {
+  border-color: red;
+}
+
+.form-group label + input + p,
+.form-group label + select + p {
+  display: none;
+}
+
+.form-group.error label + input + p,
+.form-group.error label + select + p {
+  display: block;
+  margin-top: 0.4rem;
+  color: red;
+}
+
+.form-btn {
+  padding: 10px 14px;
+  background-color: #666;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.form-btn.active {
+  padding: 10px 14px;
+  background-color: red;
 }
