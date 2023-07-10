@@ -1,108 +1,96 @@
-import React, { useState, useEffect } from "react";
-import Input from "../components/signup/Input";
-import SelectBox from "../components/signup/SelectBox";
-import MultiCheckbox from "../components/signup/MultiCheckbox";
+import React, { useState } from "react";
+import FormInput from "../components/FormInput";
+import SelectBox from "../components/SelectBox";
+import Checkbox from "../components/Checkbox";
 
 const Signup = () => {
-  // Field Values
-  const [name, setName] = useState("");
-  const [company, setCompany] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [business, setBusiness] = useState("");
+  const [values, setValues] = useState({
+    name: "",
+    company: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    business: "",
+    interests: [],
+  });
 
-  // Field Validation
-  const [nameValid, setNameValid] = useState(false);
-  const [emailValid, setEmailValid] = useState(false);
-  const [passwordValid, setPasswordValid] = useState(false);
-  const [confirmPasswordValid, setConfirmPasswordValid] = useState(false);
-  const [businessValid, setBusinessValid] = useState(false);
+  const inputFields = [
+    {
+      id: 1,
+      name: "name",
+      label: "Name",
+      type: "text",
+      placeholder: "이름을 입력하세요",
+      pattern: "^[A-Za-z0-9]{2,}$",
+      errorText: "2자 이상 영문으로 작성해 주세요",
+      required: true,
+    },
+    {
+      id: 2,
+      name: "company",
+      label: "Company",
+      type: "text",
+      placeholder: "회사명을 입력하세요",
+      required: false,
+    },
+    {
+      id: 3,
+      name: "email",
+      label: "Email",
+      type: "email",
+      placeholder: "이메일을 입력하세요",
+      errorText: "올바른 이메일 형식을 입력해 주세요",
+      required: true,
+    },
+    {
+      id: 4,
+      name: "password",
+      label: "Password",
+      type: "password",
+      placeholder: "",
+      pattern:
+        "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$",
+      errorText: "9자 이상 특수문자를 포함해 주세요",
+      required: true,
+    },
+    {
+      id: 5,
+      name: "confirmPassword",
+      label: "Confirm Password",
+      type: "password",
+      placeholder: "",
+      pattern: values.password,
+      errorText: "비밀번호가 동일하지 않습니다",
+      required: true,
+    },
+  ];
 
-  const [isAllValid, setIsAllValid] = useState(false);
+  const handleSubmit = e => {
+    e.preventDefault();
 
-  const handleSubmit = () => {
-    if (isAllValid) {
-      // Submit
+    const errors = {};
+
+    if (Object.keys(errors).length === 0) {
+      // Submit Form
+      console.log("Form Submit");
     }
   };
 
-  useEffect(() => {
-    if (
-      nameValid &&
-      emailValid &&
-      passwordValid &&
-      confirmPasswordValid &&
-      businessValid
-    ) {
-      setIsAllValid(true);
-    } else {
-      setIsAllValid(false);
-    }
-  }, [
-    nameValid,
-    emailValid,
-    passwordValid,
-    confirmPasswordValid,
-    businessValid,
-  ]);
-
-  const handleNameChange = e => {
-    setName(e.target.value);
-
-    if (/^[^\d]{1,}/g.test(name)) {
-      setNameValid(true);
-    } else {
-      setNameValid(false);
-    }
+  const onChange = ({ target: { value, name } }) => {
+    setValues({ ...values, [name]: value });
   };
 
-  const handleCompanyChange = e => {
-    setCompany(e.target.value);
+  const onChangeSelectBox = ({ target: { value } }) => {
+    setValues({ ...values, business: value });
   };
 
-  const handleEmailChange = e => {
-    setEmail(e.target.value);
-
-    if (/^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(email)) {
-      setEmailValid(true);
-    } else {
-      setEmailValid(false);
-    }
-  };
-
-  const handlePasswordChange = e => {
-    setPassword(e.target.value);
-
-    if (
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{9,}$/.test(
-        password,
-      )
-    ) {
-      setPasswordValid(true);
-    } else {
-      setPasswordValid(false);
-    }
-  };
-
-  const handleConfirmPasswordChange = e => {
-    setConfirmPassword(e.target.value);
-
-    if (password === confirmPassword) {
-      setConfirmPasswordValid(true);
-    } else {
-      setConfirmPasswordValid(false);
-    }
-  };
-
-  const handleBusinessChange = e => {
-    setBusiness(e.target.value);
-
-    if (business !== "") {
-      setBusinessValid(true);
-    } else {
-      setBusinessValid(false);
-    }
+  const onChangeCheckbox = ({ target: { value, checked } }) => {
+    setValues({
+      ...values,
+      interests: checked
+        ? [...values.interests, value]
+        : values.interests.filter(el => el !== value),
+    });
   };
 
   return (
@@ -127,85 +115,45 @@ const Signup = () => {
             </p>
           </div>
           <div className="form">
-            <form onSubmit={handleSubmit}>
-              <div className="form-row half">
-                <Input
-                  id="name"
-                  label="Name"
-                  placeholder="이름을 입력하세요"
-                  value={name}
-                  onChangeHandle={handleNameChange}
-                  error={!nameValid}
-                  errorText="첫 글자는 문자로 입력해 주세요"
-                  required
+            <form
+              onSubmit={handleSubmit}
+              noValidate
+            >
+              {inputFields.map(input => (
+                <FormInput
+                  key={input.id}
+                  {...input}
+                  value={values[input.name]}
+                  errorText={input.errorText}
+                  onChange={onChange}
                 />
-                <Input
-                  id="company"
-                  label="Company Name"
-                  placeholder="회사명을 입력하세요"
-                  value={company}
-                  onChangeHandle={handleCompanyChange}
-                />
-              </div>
-              <div className="form-row">
-                <Input
-                  id="email"
-                  label="Email"
-                  placeholder="이메일을 입력하세요"
-                  value={email}
-                  onChangeHandle={handleEmailChange}
-                  error={!emailValid}
-                  errorText="올바른 이메일을 입력해 주세요"
-                  required
-                />
-              </div>
-              <div className="form-row">
-                <Input
-                  id="password"
-                  type="password"
-                  label="Password"
-                  value={password}
-                  placeholder="*********"
-                  error={!passwordValid}
-                  errorText="9자 이상 특수문자와 숫자를 포함해 주세요"
-                  onChangeHandle={handlePasswordChange}
-                  required
-                />
-              </div>
-              <div className="form-row">
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  label="Confirm Password"
-                  value={confirmPassword}
-                  placeholder="*********"
-                  error={!confirmPasswordValid}
-                  errorText="입력한 비밀번호와 같지 않습니다"
-                  onChangeHandle={handleConfirmPasswordChange}
-                  required
-                />
-              </div>
+              ))}
               <hr />
               <div className="form-row">
                 <SelectBox
-                  id="selectBox"
                   label="Business"
-                  error={!businessValid}
-                  errorText="비즈니스 유형을 선택하세요"
-                  onChnageHandle={handleBusinessChange}
+                  onChange={onChangeSelectBox}
+                  options={["B2B", "B2C", "B2B2C"]}
                   required
                 />
               </div>
               <div className="form-row">
-                <MultiCheckbox
+                <Checkbox
                   label="Interests"
-                  id="multiCheckbox"
+                  onChange={onChangeCheckbox}
+                  options={[
+                    "HTML",
+                    "CSS",
+                    "Javascript",
+                    "React",
+                    "Vue",
+                    "Next",
+                  ]}
+                  selectedOptions={values.interests}
                 />
               </div>
               <div className="form-row">
-                <button className={`form-btn ${isAllValid ? "active" : ""}`}>
-                  Sign up
-                </button>
+                <button className="btn-submit active">Sign up</button>
               </div>
             </form>
           </div>

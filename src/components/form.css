@@ -1,0 +1,76 @@
+.form-group {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-bottom: 1rem;
+}
+
+.form-group .form-label {
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.form-group .form-label.required:after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: red;
+}
+
+.form-group .input-text,
+.form-group .input-select {
+  font-size: 1rem;
+  padding: 10px 14px;
+  border-color: #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  appearance: none;
+}
+
+.form-group .input-text:focus,
+.form-group .input-select:focus {
+  appearance: none;
+}
+
+.form-group .input-text + .error-text,
+.form-group .input-select + .error-text {
+  display: none;
+  margin-top: 0.5rem;
+  font-size: 0.6rem;
+  color: red;
+}
+
+.form-group .input-text:invalid,
+.form-group .input-select:invalid {
+  border-color: red;
+}
+
+.form-group .input-text:invalid + .error-text,
+.form-group .input-select:invalid + .error-text {
+  display: block;
+}
+
+.form-group .checkbox-group {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  padding: 1rem 0;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 10px 14px;
+  background-color: #666;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn-submit.active {
+  padding: 10px 14px;
+  background-color: red;
+}
